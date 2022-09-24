@@ -1,18 +1,35 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
-export default function Service() {
+import { getToken } from '../redux/token/actions'
+function Service(props) {
   const [img, setImg] = useState(null)
-
   return (
     <ServiceContainer>
-      {img ? <Image>로고</Image> : <ImageBox>이미지를 선택해주세요</ImageBox>}
+      {img ? (
+        <Image>로고</Image>
+      ) : (
+        <ImageBox>이미지를 선택해주세요{props.token}</ImageBox>
+      )}
 
-      <PurchaseButton>구매하기</PurchaseButton>
+      <PurchaseButton onClick={() => props.getToken('123')}>
+        구매하기
+      </PurchaseButton>
     </ServiceContainer>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    token: state.token,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getToken: (token) => dispatch(getToken(token)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Service)
 
 const ServiceContainer = styled.div`
   display: flex;
@@ -30,10 +47,7 @@ const Image = styled.img`
   font-size: 32px;
 `
 const PurchaseButton = styled.div`
-    background-color: blue;
+  background-color: blue;
   font-size: 32px;
   color: white;
-`
-const NavigationItem = styled.div`
-  padding-left: 20px;
 `

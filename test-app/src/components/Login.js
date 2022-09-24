@@ -1,42 +1,96 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-export default function Login() {
-  const [count, setCount] = useState(0)
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { getToken } from '../redux/token/actions'
+
+const EMAILREX =
+  /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
+
+function Login(props) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [mobile, setMobile] = useState('')
+
+  const navigate = useNavigate()
+
+  const clickConfirmButton = () => {
+    axios
+      .post(
+        'https://mycroft-test-api.herokuapp.com/login',
+        { email: email, password: password },
+        { headers: { 'Content-Type': `application/json` } },
+      )
+      .then((res) => {
+        console.log(res)
+        props.getToken(res.data.token)
+      })
+    navigate('/')
+  }
 
   return (
     <LoginContainer>
-      <Logo>로고</Logo>
-      <NavigationContianer>
-        <Link>
-          <NavigationItem>서비스</NavigationItem>
-        </Link>
-        <Link>
-          {' '}
-          <NavigationItem>회원가입</NavigationItem>
-        </Link>
-        <Link>
-          {' '}
-          <NavigationItem>로그인</NavigationItem>
-        </Link>
-      </NavigationContianer>
+      <InputContainer>
+        {' '}
+        <InputName>이메일</InputName>
+        <Inputbox onChange={(e) => setEmail(e.target.value)} />
+      </InputContainer>
+      <InputContainer>
+        {' '}
+        <InputName>비밀번호</InputName>
+        <Inputbox
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+        />
+      </InputContainer>
+      <ConfirmButton onClick={clickConfirmButton}>확인</ConfirmButton>
     </LoginContainer>
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    token: state.token,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getToken: (token) => dispatch(getToken(token)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
+
 const LoginContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 40px;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 `
-const Logo = styled.div`
-  font-size: 32px;
+const Inputbox = styled.input`
+  width: 400px;
+  height: 30px;
+
+  border: 1px solid black;
+  :focus {
+    outline: none;
+  }
 `
-const NavigationContianer = styled.div`
+const ConfirmButton = styled.div`
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  background-color: blue;
+  color: white;
+  line-height: 50px;
+  margin-top: 50px;
+`
+const InputContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  font-size: 32px;
+  margin-top: 50px;
+  height: 30px;
 `
-const NavigationItem = styled.div`
-  padding-left: 20px;
+const InputName = styled.div`
+  width: 120px;
 `
