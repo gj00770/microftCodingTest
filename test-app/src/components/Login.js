@@ -5,9 +5,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { getToken } from '../redux/token/actions'
 
-const EMAILREX =
-  /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
-
 function Login(props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

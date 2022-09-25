@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { getToken } from '../redux/token/actions'
 function Service(props) {
-  const [img, setImg] = useState(null)
+  const navigate = useNavigate()
+  const handleOrder = () => {
+    if (props.token) {
+      alert('주문성공')
+    } else {
+      alert('로그인해주세요')
+      navigate('./login')
+    }
+  }
   return (
     <ServiceContainer>
-      {img ? (
-        <Image>로고</Image>
-      ) : (
-        <ImageBox>이미지를 선택해주세요{props.token}</ImageBox>
-      )}
-
-      <PurchaseButton onClick={() => props.getToken('123')}>
-        구매하기
-      </PurchaseButton>
+      <ImageBox src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMDdfMTE2/MDAxNDgzNzU1MDMyNTc0.hx5KAnplO4tzx7gyHo0OXzPvyCH5h7gfLjMf-S5qamAg.oUP8V58A0P0ZybvJw_-Dq57FbxOxV9o1MU4tRdnbORwg.JPEG.candle_yt/4.jpg?type=w800" />
+      <PurchaseButton onClick={handleOrder}>구매하기</PurchaseButton>
     </ServiceContainer>
   )
 }
@@ -24,30 +25,29 @@ const mapStateToProps = (state) => {
     token: state.token,
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getToken: (token) => dispatch(getToken(token)),
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Service)
+
+export default connect(mapStateToProps)(Service)
 
 const ServiceContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `
-const ImageBox = styled.div`
+const ImageBox = styled.img`
   font-size: 14px;
   height: 400px;
-  width: 60vw;
-  line-height: 400px;
-  background-color: #d3d3d3;
+  width: 700px;
 `
 const Image = styled.img`
   font-size: 32px;
 `
 const PurchaseButton = styled.div`
+  cursor: pointer;
   background-color: blue;
-  font-size: 32px;
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  margin-top: 10px;
   color: white;
 `

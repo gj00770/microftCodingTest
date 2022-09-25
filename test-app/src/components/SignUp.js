@@ -21,10 +21,9 @@ function SignUp(props) {
     if (!EMAILREX.test(email)) {
       alert('이메일확인')
       emailRef.current.focus()
-    } else if (password.length < 9 || password.length > 15) {
-      console.log(password.length)
+    } else if (password.length < 8 || password.length > 15) {
       alert('비밀번호확인')
-    } else if (!password === confirmPassword) {
+    } else if (password !== confirmPassword) {
       alert('비밀번호불일치')
     } else {
       axios

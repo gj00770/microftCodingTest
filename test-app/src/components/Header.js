@@ -1,31 +1,30 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Link, isActive, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { getToken, removeToken } from '../redux/token/actions'
 import { connect } from 'react-redux'
 
 function Header(props) {
-  const [count, setCount] = useState(0)
   const { pathname } = useLocation()
 
   return (
     <HeaderContainer>
-      <Logo>로고</Logo>
+      <Logo>cartoonify</Logo>
 
       <NavigationContianer>
-        <StyledLink to="/" isActive={pathname === '/'}>
+        <StyledLink to="/" isactive={pathname === '/' ? 1 : 0}>
           <NavigationItem>서비스</NavigationItem>
         </StyledLink>
 
         {props.token.length ? (
           <StyledLink
             to="/mypage/order"
-            isActive={pathname === '/mypage/order'}
+            isactive={pathname === '/mypage/order' ? 1 : 0}
           >
             <NavigationItem>마이페이지</NavigationItem>
           </StyledLink>
         ) : (
-          <StyledLink to="/sign-up" isActive={pathname === '/sign-up'}>
+          <StyledLink to="/sign-up" isactive={pathname === '/sign-up' ? 1 : 0}>
             <NavigationItem>회원가입</NavigationItem>
           </StyledLink>
         )}
@@ -35,7 +34,7 @@ function Header(props) {
             로그아웃
           </NavigationItem>
         ) : (
-          <StyledLink to="/login" isActive={pathname === '/login'}>
+          <StyledLink to="/login" isactive={pathname === '/login' ? 1 : 0}>
             <NavigationItem>로그인</NavigationItem>
           </StyledLink>
         )}
@@ -77,6 +76,6 @@ const NavigationItem = styled.div`
 `
 const StyledLink = styled(Link)`
   text-decoration: none;
-  background-color: ${(props) => (props.isActive ? 'blue' : 'none')};
-  color: ${(props) => (props.isActive ? 'white' : 'black')};
+  background-color: ${(props) => (props.isactive ? 'blue' : 'none')};
+  color: ${(props) => (props.isactive ? 'white' : 'black')};
 `

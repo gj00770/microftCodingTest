@@ -4,6 +4,7 @@ import Header from './components/Header'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
 import Service from './components/Service'
+import ItemInfo from './components/ImteInfo'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/mypage/order" element={<Mypage />} />
+            <Route path="mypage/order/:itemId" element={<ItemInfo />} />
           </Routes>
         </BrowserRouter>
       </div>
