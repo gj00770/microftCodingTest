@@ -1,14 +1,13 @@
-import logo from './logo.svg'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
-import SignUp from './components/SignUp'
-import Login from './components/Login'
-import Service from './components/Service'
 import ItemInfo from './components/ImteInfo'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from './redux/store'
+import Login from './components/Login'
 import Mypage from './components/Mypage'
+import Service from './components/Service'
+import SignUp from './components/SignUp'
+import store from './redux/store'
 function App() {
   return (
     <Provider store={store}>
