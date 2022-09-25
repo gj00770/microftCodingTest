@@ -11,8 +11,6 @@ const EMAILREX =
 function Login(props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [mobile, setMobile] = useState('')
 
   const navigate = useNavigate()
 
@@ -24,10 +22,14 @@ function Login(props) {
         { headers: { 'Content-Type': `application/json` } },
       )
       .then((res) => {
-        console.log(res)
         props.getToken(res.data.token)
+        navigate('/')
       })
-    navigate('/')
+      .catch((err) => {
+        if (err.response.status === 401) {
+          alert('비밀번호는8자이상이여만합니다')
+        }
+      })
   }
 
   return (
